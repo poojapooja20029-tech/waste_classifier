@@ -1,0 +1,21 @@
+{% extends "classifier/base.html" %}
+{% block content %}
+<div class="card">
+ <h2>Predict waste type</h2>
+ <form method="post">{% csrf_token %}
+  {% for f in form %}
+   <label>{{ f.label }}</label>{{ f }}
+   {{ f.errors }}
+  {% endfor %}
+  <button type="submit">Predict</button>
+ </form>
+</div>
+{% if result %}
+<div class="card">
+ <div>Predicted waste type</div>
+ <div class="result">{{ result.type }}</div>
+ <div>Confidence: {{ result.confidence }}%</div>
+ <div class="bar"><span style="width:{{ result.confidence }}%"></span></div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends "classifier/base.html" %}
+{% block content %}
+<div class="card">
+ <h2>Automated Waste Classification using Predictive Analysis</h2>
+ <p>Enter a waste item's weight, size, shape, texture and colour. The trained model predicts whether it is plastic, metal, organic, paper or glass.</p>
+ <p><b>{{ samples }}</b> training samples &middot; <b>{{ predictions }}</b> predictions made</p>
+ <a class="btn" href="{% url 'predict' %}">Classify waste</a>
+ <a class="btn" href="{% url 'dashboard' %}">Model dashboard</a>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+
+{% extends "classifier/base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <h2>Model Performance</h2>
+
+    {% for item in metrics %}
+        <p>
+            <b>{{ item.label }}</b>
+
+            {% if item.m %}
+                — {{ item.m.accuracy }}% accuracy
+                (Train: {{ item.m.train_size }},
+                Test: {{ item.m.test_size }},
+                {{ item.m.trained_at|date:"d M H:i" }})
+
+                <div class="bar">
+                    <span></span>
+                </div>
+            {% else %}
+                — Not trained yet
+            {% endif %}
+        </p>
+    {% endfor %}
+
+    <form method="post" action="{% url 'train' %}">
+        {% csrf_token %}
+        <button type="submit">
+            Train / Re-train All Models
+        </button>
+    </form>
+</div>
+
+<div class="card">
+    <h2>Dataset ({{ total }} rows)</h2>
+
+    <table>
+        <tr>
+            <th>Waste Type</th>
+            <th>Samples</th>
+        </tr>
+
+        {% for d in distribution %}
+            <tr>
+                <td>{{ d.waste_type|title }}</td>
+                <td>{{ d.count }}</td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="2">No data. Run generate_dataset.</td>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

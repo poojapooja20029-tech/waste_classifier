@@ -1,0 +1,147 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Classifier</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: #f2f7f3;
+            color: #1b2b21;
+        }
+
+        nav {
+            background: #1f7a45;
+            padding: 15px 20px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .brand {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            margin-right: auto;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 25px auto;
+            padding: 0 16px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 5px #cccccc;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #bcd;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button, .btn {
+            background: #1f7a45;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 7px;
+            margin-top: 15px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .msg {
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 12px;
+        }
+
+        .success {
+            background: #d9f2e1;
+        }
+
+        .error {
+            background: #fadbd8;
+        }
+
+        .result {
+            font-size: 25px;
+            font-weight: bold;
+            color: #1f7a45;
+        }
+
+        .bar {
+            background: #dfeee4;
+            border-radius: 6px;
+            height: 14px;
+        }
+
+        .bar span {
+            display: block;
+            height: 14px;
+            background: #1f7a45;
+            border-radius: 6px;
+        }
+
+        .errorlist {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <span class="brand">♻ Waste Classifier</span>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'predict' %}">Predict</a>
+        <a href="{% url 'history' %}">History</a>
+        <a href="{% url 'dashboard' %}">Dashboard</a>
+    </nav>
+
+    <main>
+        {% for m in messages %}
+            <div class="msg {{ m.tags }}">{{ m }}</div>
+        {% endfor %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>
+```

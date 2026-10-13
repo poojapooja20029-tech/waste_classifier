@@ -1,0 +1,15 @@
+{% extends "classifier/base.html" %}
+{% block content %}
+<div class="card">
+ <h2>Prediction history</h2>
+ <div style="overflow-x:auto">
+ <table>
+  <tr><th>Time</th><th>Weight</th><th>Size</th><th>Shape</th><th>Texture</th><th>Color</th><th>Result</th><th>Conf.</th><th>Model</th></tr>
+  {% for r in records %}
+  <tr><td>{{ r.created_at|date:"d M H:i" }}</td><td>{{ r.weight }}</td><td>{{ r.size }}</td><td>{{ r.shape }}</td><td>{{ r.texture }}</td><td>{{ r.color }}</td><td><b>{{ r.predicted_type }}</b></td><td>{{ r.confidence }}%</td><td>{{ r.get_model_used_display }}</td></tr>
+  {% empty %}<tr><td colspan="9">No predictions yet.</td></tr>
+  {% endfor %}
+ </table>
+ </div>
+</div>
+{% endblock %}
