@@ -3,3 +3,5 @@ pandas
 scikit-learn
 joblib
 PyMySQL
+dj-database-url
+psycopg2-binary

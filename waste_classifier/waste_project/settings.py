@@ -1,9 +1,18 @@
+
 import os
 from pathlib import Path
 
+import dj_database_url
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = "change-this-secret-key-in-production"
-DEBUG = True
+
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-local-development-key"
+)
+
+DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
+
 ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
@@ -46,19 +55,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "waste_project.wsgi.application"
 
-# ---- Database: SQLite by default, MySQL when DB_ENGINE=mysql ----
-if os.environ.get("DB_ENGINE", "sqlite").lower() == "mysql":
-    import pymysql
-    pymysql.install_as_MySQLdb()
+# Neon PostgreSQL on Vercel; SQLite on local computer
+DATABASE_URL = (
+    os.environ.get("DATABASE_URL")
+    or os.environ.get("DATABASE_URL_UNPOOLED")
+)
+
+if DATABASE_URL:
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": os.environ.get("DB_NAME", "waste_db"),
-            "USER": os.environ.get("DB_USER", "root"),
-            "PASSWORD": os.environ.get("DB_PASSWORD", ""),
-            "HOST": os.environ.get("DB_HOST", "127.0.0.1"),
-            "PORT": os.environ.get("DB_PORT", "3306"),
-        }
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
 else:
     DATABASES = {
@@ -69,11 +78,15 @@ else:
     }
 
 AUTH_PASSWORD_VALIDATORS = []
+
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
+
 STATIC_URL = "static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 MODEL_DIR = BASE_DIR / "ml_models"
